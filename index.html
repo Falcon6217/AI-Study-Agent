@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CogniStudy AI - Advanced AI Learning & Study Assistant</title>
+  
+  <!-- Modern Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Application Styles -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Ambient Glowing Background Spheres -->
+  <div class="ambient-background">
+    <div class="ambient-blob blob-1"></div>
+    <div class="ambient-blob blob-2"></div>
+    <div class="ambient-blob blob-3"></div>
+  </div>
+
+  <div id="app">
+    <!-- ======================================================================
+         1. Sidebar Navigation
+         ====================================================================== -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="#" class="logo-brand">
+          <div class="logo-icon">🧠</div>
+          <span class="gradient-text">CogniStudy AI</span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Core Learning</div>
+        <a class="nav-item active" data-tab="dashboard">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          <span>Dashboard</span>
+        </a>
+        <a class="nav-item" data-tab="tutor">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+          <span>AI Omni-Tutor</span>
+          <span class="nav-badge">Pro</span>
+        </a>
+        <a class="nav-item" data-tab="notes">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          <span>Smart Notes</span>
+        </a>
+
+        <div class="nav-section-title">Recall & Testing</div>
+        <a class="nav-item" data-tab="flashcards">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="M7 15h10M7 9h10"></path></svg>
+          <span>Flashcards (SRS)</span>
+        </a>
+        <a class="nav-item" data-tab="quiz">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+          <span>Quiz Simulator</span>
+        </a>
+        <a class="nav-item" data-tab="mindmap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+          <span>Concept Mind Map</span>
+        </a>
+
+        <div class="nav-section-title">Productivity</div>
+        <a class="nav-item" data-tab="planner">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          <span>Study & Pomodoro</span>
+        </a>
+        <a class="nav-item" data-tab="analytics">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+          <span>Analytics</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-status-card" onclick="window.app.openProfileModal()" title="View Profile">
+          <div id="sidebarAvatar" class="status-avatar" style="background:#6366f1;">🧠</div>
+          <div class="status-info">
+            <div id="sidebarUserName" class="status-name">Alex Chen</div>
+            <div id="sidebarUserTier" class="status-level">⚡ Level 4 Scholar</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ======================================================================
+         2. Main Application Wrapper & Header
+         ====================================================================== -->
+    <main class="main-wrapper">
+      <header class="top-header">
+        <div class="header-left">
+          <div>
+            <h1 id="headerPageTitle" class="page-title">Study Dashboard</h1>
+            <p id="headerPageSubtitle" class="page-subtitle">Welcome back! Here is your daily learning momentum.</p>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <div id="globalStreakDisplay" class="streak-pill" onclick="window.app.switchTab('analytics')">
+            🔥 7 Day Streak
+          </div>
+
+          <div id="globalAIStatusBadge" class="ai-status-badge">
+            <span class="ai-status-dot"></span> Built-in AI Engine
+          </div>
+
+          <button class="icon-btn" onclick="window.app.toggleTheme()" title="Toggle Dark/Light Mode">
+            🌓
+          </button>
+          <button class="icon-btn" onclick="window.app.openSettingsModal()" title="AI API Settings">
+            ⚙️
+          </button>
+
+          <!-- User Profile Dropdown Button -->
+          <div style="position:relative;">
+            <button class="user-profile-btn" id="headerUserBtn" onclick="window.app.toggleUserDropdown()" title="Account">
+              <div id="headerUserAvatar" class="user-avatar-circle" style="background:#6366f1;">🧠</div>
+              <div>
+                <div id="headerUserName" class="user-profile-name">Alex Chen</div>
+                <div id="headerUserTier" class="user-profile-tier">Level 4 Scholar</div>
+              </div>
+            </button>
+            <!-- Dropdown -->
+            <div id="userDropdown" class="user-dropdown">
+              <div class="dropdown-header">
+                <div id="dropdownAvatar" class="dropdown-avatar" style="background:#6366f1;">🧠</div>
+                <div>
+                  <div id="dropdownName" class="dropdown-user-name">Alex Chen</div>
+                  <div id="dropdownEmail" class="dropdown-user-email">alex.scholar@cogni.ai</div>
+                  <div id="dropdownTier" class="dropdown-user-tier">⚡ Level 4 Scholar</div>
+                </div>
+              </div>
+              <div class="dropdown-items">
+                <button class="dropdown-item" onclick="window.app.openProfileModal(); window.app.closeUserDropdown();">
+                  <span>👤</span> Edit Profile
+                </button>
+                <button class="dropdown-item" onclick="window.app.openSettingsModal(); window.app.closeUserDropdown();">
+                  <span>⚙️</span> AI Engine Settings
+                </button>
+                <button class="dropdown-item" onclick="window.app.toggleTheme(); window.app.closeUserDropdown();">
+                  <span>🌓</span> Toggle Theme
+                </button>
+                <div class="dropdown-divider"></div>
+                <button class="dropdown-item danger" onclick="window.app.logoutUser();">
+                  <span>🚪</span> Sign Out
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- ======================================================================
+           3. Content Area Views
+           ====================================================================== -->
+      <div class="content-area">
+
+        <!-- 3.1 DASHBOARD VIEW -->
+        <section id="view_dashboard" class="page-view active">
+          <div class="dashboard-grid">
+            
+            <!-- Quick Stat Badges -->
+            <div class="glass-panel stat-card" style="--stat-color: #f59e0b;">
+              <div class="stat-icon">🔥</div>
+              <div class="stat-content">
+                <div id="statStreakVal" class="stat-value">7 Days</div>
+                <div class="stat-label">Daily Streak</div>
+              </div>
+            </div>
+
+            <div class="glass-panel stat-card" style="--stat-color: #06b6d4;">
+              <div class="stat-icon">⏱️</div>
+              <div class="stat-content">
+                <div id="statFocusHoursVal" class="stat-value">2.4 hrs</div>
+                <div class="stat-label">Focus Time</div>
+              </div>
+            </div>
+
+            <div class="glass-panel stat-card" style="--stat-color: #6366f1;">
+              <div class="stat-icon">⚡</div>
+              <div class="stat-content">
+                <div id="statCardsReviewedVal" class="stat-value">48</div>
+                <div class="stat-label">Cards Reviewed</div>
+              </div>
+            </div>
+
+            <div class="glass-panel stat-card" style="--stat-color: #10b981;">
+              <div class="stat-icon">🎯</div>
+              <div class="stat-content">
+                <div id="statQuizzesPassedVal" class="stat-value">2</div>
+                <div class="stat-label">Quizzes Passed</div>
+              </div>
+            </div>
+
+            <!-- Motivational AI Banner -->
+            <div class="glass-panel banner-card">
+              <span class="banner-badge">✨ Daily Learning Insight</span>
+              <h2 class="banner-title">"Spaced repetition transforms transient short-term facts into durable long-term memory."</h2>
+              <p class="banner-text">Use the Feynman technique today: try explaining a complex concept back to your AI Tutor in the simplest terms possible.</p>
+              <div style="display:flex; gap:12px;">
+                <button class="btn btn-primary" onclick="window.app.switchTab('tutor')">Launch AI Tutor 🚀</button>
+                <button class="btn btn-secondary" onclick="window.app.switchTab('flashcards')">Review Flashcards</button>
+              </div>
+            </div>
+
+            <!-- Quick Pomodoro Widget -->
+            <div class="glass-panel quick-pomodoro-widget">
+              <h3 style="font-size:1.1rem; font-weight:700;">Focus Session</h3>
+              <div style="font-family:var(--font-mono); font-size:2.2rem; font-weight:700; color:var(--accent-secondary);">
+                25:00
+              </div>
+              <button class="btn btn-sm btn-cyan" onclick="window.app.switchTab('planner')">Open Focus Suite ⏱️</button>
+            </div>
+
+            <!-- Feature Quick Launch Cards -->
+            <div class="glass-panel section-card">
+              <div class="section-header">
+                <h3 class="section-title">⚡ Accelerated Learning Tools</h3>
+              </div>
+              <div class="quick-tools-grid">
+                <div class="tool-launch-card" onclick="window.app.switchTab('notes')">
+                  <div class="tool-launch-icon">📑</div>
+                  <div>
+                    <div class="tool-launch-name">Smart Notes Summarizer</div>
+                    <div class="tool-launch-desc">Upload docs & extract core concepts</div>
+                  </div>
+                </div>
+
+                <div class="tool-launch-card" onclick="window.app.switchTab('quiz')">
+                  <div class="tool-launch-icon">📝</div>
+                  <div>
+                    <div class="tool-launch-name">AI Quiz Simulator</div>
+                    <div class="tool-launch-desc">Test knowledge with instant feedback</div>
+                  </div>
+                </div>
+
+                <div class="tool-launch-card" onclick="window.app.switchTab('mindmap')">
+                  <div class="tool-launch-icon">🌐</div>
+                  <div>
+                    <div class="tool-launch-name">Concept Mind Map</div>
+                    <div class="tool-launch-desc">Interactive visual idea graph</div>
+                  </div>
+                </div>
+
+                <div class="tool-launch-card" onclick="window.app.switchTab('planner')">
+                  <div class="tool-launch-icon">🎧</div>
+                  <div>
+                    <div class="tool-launch-name">Ambient Focus Audio</div>
+                    <div class="tool-launch-desc">Rain & Binaural beat synthesizer</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Recent Activity Feed -->
+            <div class="glass-panel section-card">
+              <div class="section-header">
+                <h3 class="section-title">🕒 Recent Study Milestones</h3>
+              </div>
+              <div id="recentActivityList"></div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- 3.2 AI OMNI-TUTOR VIEW -->
+        <section id="view_tutor" class="page-view">
+          <div class="tutor-layout">
+            <!-- Mode Sidebar -->
+            <div class="glass-panel tutor-sidebar">
+              <h3 style="font-size:1rem; font-weight:700;">Cognitive Mode</h3>
+              <div class="mode-selector-list">
+                <div class="mode-card active" data-mode="standard" onclick="window.tutorController.setMode('standard')">
+                  <div class="mode-icon">🎓</div>
+                  <div class="mode-info">
+                    <h4>Standard Tutor</h4>
+                    <p>In-depth explanations with math & code</p>
+                  </div>
+                </div>
+
+                <div class="mode-card" data-mode="socratic" onclick="window.tutorController.setMode('socratic')">
+                  <div class="mode-icon">❓</div>
+                  <div class="mode-info">
+                    <h4>Socratic Guide</h4>
+                    <p>Guides your intuition with questions</p>
+                  </div>
+                </div>
+
+                <div class="mode-card" data-mode="feynman" onclick="window.tutorController.setMode('feynman')">
+                  <div class="mode-icon">🎯</div>
+                  <div class="mode-info">
+                    <h4>Feynman Evaluator</h4>
+                    <p>Explain it yourself; AI tests your grasp</p>
+                  </div>
+                </div>
+
+                <div class="mode-card" data-mode="eli5" onclick="window.tutorController.setMode('eli5')">
+                  <div class="mode-icon">🧒</div>
+                  <div class="mode-info">
+                    <h4>ELI5 Explainer</h4>
+                    <p>Vivid everyday analogies and metaphors</p>
+                  </div>
+                </div>
+              </div>
+
+              <div style="margin-top:auto; padding:12px; background:var(--bg-surface); border-radius:var(--radius-md); font-size:0.8rem; color:var(--text-muted);">
+                💡 <strong>Tip:</strong> You can type math formulas, ask for Python derivations, or click the mic for voice queries.
+              </div>
+            </div>
+
+            <!-- Chat Stream Container -->
+            <div class="glass-panel chat-container">
+              <div class="chat-header">
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <span class="ai-status-dot"></span>
+                  <span id="currentModeBadge" class="nav-badge" style="background:rgba(99,102,241,0.2); color:#818cf8;">STANDARD MODE</span>
+                </div>
+                <button class="btn btn-sm btn-secondary" onclick="document.getElementById('chatMessages').innerHTML = ''; window.tutorController.appendSystemNotice('Chat history cleared.');">
+                  Clear Chat
+                </button>
+              </div>
+
+              <div id="chatMessages" class="chat-messages">
+                <div class="message-bubble ai">
+                  <div class="message-avatar">AI</div>
+                  <div class="message-content">
+                    Hello! I am your <strong>CogniStudy AI Tutor</strong>. 
+                    <br/><br/>
+                    I can explain complex topics, test your understanding via the <strong>Feynman technique</strong>, derive formulas, or guide you through difficult problem sets. What would you like to master today?
+                  </div>
+                </div>
+              </div>
+
+              <div class="chat-input-container">
+                <button id="voiceInputBtn" class="icon-btn" onclick="window.tutorController.toggleVoiceInput()" title="Voice Dictation">
+                  🎤
+                </button>
+                <input type="text" id="chatInput" class="chat-input" placeholder="Ask a question or explain a concept... (Press Enter to send)">
+                <button id="sendChatBtn" class="btn btn-primary" onclick="window.tutorController.handleSendMessage()">
+                  Send 🚀
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3.3 SMART NOTES & SUMMARIZER VIEW -->
+        <section id="view_notes" class="page-view">
+          <div class="notes-layout">
+            <!-- Left: Notes Ingestion Editor -->
+            <div class="glass-panel notes-editor-pane">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <h3 style="font-size:1.15rem; font-weight:700;">📄 Study Material Ingestion</h3>
+                <button class="btn btn-sm btn-secondary" onclick="window.notesController.loadSampleNotes()">Load Sample Notes</button>
+              </div>
+
+              <div id="fileDropZone" class="dropzone-area" onclick="document.getElementById('fileUploadInput').click()">
+                <input type="file" id="fileUploadInput" style="display:none;" accept=".txt,.md,.json">
+                <div style="font-size:1.6rem; margin-bottom:6px;">📤</div>
+                <div style="font-weight:600; font-size:0.92rem; color:var(--text-primary);">Click or Drop text/markdown notes here</div>
+                <div style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;">Supports .txt, .md, lecture notes, textbook passages</div>
+              </div>
+
+              <textarea id="notesRawInput" class="form-textarea" style="flex:1;" placeholder="Paste lecture notes, study materials, or textbook excerpts here..."></textarea>
+              
+              <div style="margin-top:14px; display:flex; justify-content:flex-end; gap:10px;">
+                <button class="btn btn-primary" style="width:100%;" onclick="window.notesController.processNotes()">
+                  ✨ Synthesize & Extract Knowledge
+                </button>
+              </div>
+            </div>
+
+            <!-- Right: Synthesized Knowledge Output -->
+            <div class="glass-panel notes-output-pane">
+              <div id="notesOutputScroll" class="notes-output-scroll">
+                <div style="text-align:center; padding:60px 20px; color:var(--text-muted);">
+                  <div style="font-size:2.5rem; margin-bottom:12px;">📊</div>
+                  <h4 style="font-weight:600; color:var(--text-primary); margin-bottom:6px;">No Notes Processed Yet</h4>
+                  <p style="font-size:0.85rem; max-width:320px; margin:0 auto;">Paste your study notes on the left and click "Synthesize & Extract Knowledge" to generate summaries, concept tags, and flashcard sets.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3.4 SPACED REPETITION FLASHCARDS VIEW -->
+        <section id="view_flashcards" class="page-view">
+          <div class="flashcards-layout">
+            
+            <!-- Deck Control Bar -->
+            <div class="glass-panel deck-bar">
+              <div class="deck-selector">
+                <span style="font-weight:600; font-size:0.95rem;">Active Deck:</span>
+                <select id="deckSelectDropdown" class="form-select" style="width:280px;"></select>
+                <span id="cardCounterDisplay" class="nav-badge">1 / 4</span>
+              </div>
+              <div style="display:flex; gap:10px;">
+                <button class="btn btn-sm btn-secondary" onclick="window.flashcardsController.exportDecksJSON()">Export Decks</button>
+                <button class="btn btn-sm btn-primary" onclick="window.app.openAddCardModal()">+ Add New Card</button>
+              </div>
+            </div>
+
+            <!-- 3D Card Scene -->
+            <div class="card-scene">
+              <div id="activeFlashcard3D" class="flashcard-3d" onclick="window.flashcardsController.flipCard()">
+                <!-- Front Face -->
+                <div class="card-face card-front">
+                  <div style="display:flex; justify-content:space-between;">
+                    <span id="cardTopicTag" class="card-topic-tag">Artificial Intelligence</span>
+                    <span style="font-size:0.75rem; color:var(--text-muted);">QUESTION</span>
+                  </div>
+                  <div id="cardFrontText" class="card-main-text">
+                    What is the core attention mechanism in Transformer models?
+                  </div>
+                  <div id="cardHintText" class="card-hint-text">
+                    Click to flip or press Spacebar
+                  </div>
+                </div>
+
+                <!-- Back Face -->
+                <div class="card-face card-back">
+                  <div style="display:flex; justify-content:space-between;">
+                    <span class="card-topic-tag" style="color:var(--accent-secondary);">EXPLANATION</span>
+                    <span style="font-size:0.75rem; color:var(--text-muted);">ANSWER</span>
+                  </div>
+                  <div id="cardBackText" class="card-main-text" style="font-size:1.15rem; text-align:left;">
+                    Scaled Dot-Product Self-Attention: Attention(Q, K, V) = softmax((Q * K^T) / sqrt(d_k)) * V.
+                  </div>
+                  <div style="font-size:0.75rem; color:var(--text-muted); text-align:center;">
+                    Rate how well you recalled this card:
+                  </div>
+                </div>
+              </div>
+
+              <!-- Spaced Repetition Grading Controls -->
+              <div class="srs-controls">
+                <button class="btn-srs btn-srs-again" onclick="window.flashcardsController.rateCard('again')">
+                  Again <span>1 Day</span>
+                </button>
+                <button class="btn-srs btn-srs-hard" onclick="window.flashcardsController.rateCard('hard')">
+                  Hard <span>3 Days</span>
+                </button>
+                <button class="btn-srs btn-srs-good" onclick="window.flashcardsController.rateCard('good')">
+                  Good <span>6 Days</span>
+                </button>
+                <button class="btn-srs btn-srs-easy" onclick="window.flashcardsController.rateCard('easy')">
+                  Easy <span>12 Days</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Decks Grid Overview -->
+            <div>
+              <h3 style="font-size:1.1rem; font-weight:700; margin-bottom:12px;">📚 All Flashcard Decks</h3>
+              <div id="deckOverviewGrid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:16px;"></div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- 3.5 AI QUIZ SIMULATOR VIEW -->
+        <section id="view_quiz" class="page-view">
+          <div class="quiz-wrapper">
+            
+            <div class="glass-panel quiz-header-bar">
+              <div>
+                <h3 id="quizTitleDisplay" style="font-size:1.2rem; font-weight:700;">Deep Learning Foundations Quiz</h3>
+                <span style="font-size:0.8rem; color:var(--text-muted);">Interactive Timed Assessment</span>
+              </div>
+              <div id="quizTimerDisplay" class="quiz-timer-pill">
+                ⏱️ 05:00
+              </div>
+            </div>
+
+            <div class="glass-panel question-box">
+              <div id="quizQuestionNumber" class="question-num">Question 1 of 4</div>
+              <h2 id="quizQuestionText" class="question-title">Which activation function is defined as f(x) = max(0, x)?</h2>
+
+              <div id="quizOptionsList" class="options-list"></div>
+
+              <div id="quizExplanationBox" class="explanation-box" style="display:none;"></div>
+
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-top:24px;">
+                <button class="btn btn-secondary" onclick="window.quizController.prevQuestion()">← Previous</button>
+                <div style="display:flex; gap:10px;">
+                  <button class="btn btn-primary" onclick="window.quizController.nextQuestion()">Next Question →</button>
+                  <button id="quizSubmitBtn" class="btn btn-cyan" onclick="window.quizController.submitQuiz()">Submit Exam 🎯</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- 3.6 CONCEPT MIND MAP VIEW -->
+        <section id="view_mindmap" class="page-view">
+          <div class="glass-panel mindmap-container">
+            <div class="mindmap-toolbar">
+              <div style="display:flex; align-items:center; gap:10px;">
+                <h3 style="font-size:1.1rem; font-weight:700;">🌐 Relational Concept Graph</h3>
+                <span class="nav-badge">Interactive Physics</span>
+              </div>
+              <div style="display:flex; gap:8px;">
+                <button class="btn btn-sm btn-cyan" onclick="window.mindmapController.exploreSelectedNode()">Deep Dive on Selected Node 🔍</button>
+                <button class="btn btn-sm btn-secondary" onclick="window.mindmapController.exportImage()">Export PNG 🖼️</button>
+              </div>
+            </div>
+
+            <div class="mindmap-canvas-wrapper">
+              <canvas id="mindmapCanvas"></canvas>
+              <div class="mindmap-floating-controls">
+                <button class="icon-btn" onclick="window.mindmapController.zoomIn()" title="Zoom In">+</button>
+                <button class="icon-btn" onclick="window.mindmapController.zoomOut()" title="Zoom Out">-</button>
+                <button class="icon-btn" onclick="window.mindmapController.resetView()" title="Reset Canvas">↺</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3.7 STUDY PLANNER & POMODORO VIEW -->
+        <section id="view_planner" class="page-view">
+          <div class="planner-grid">
+            
+            <!-- Left: Pomodoro Suite & Ambient Audio -->
+            <div class="glass-panel pomodoro-card">
+              <div class="timer-mode-pills">
+                <div class="mode-pill active" data-mode="work" onclick="window.plannerController.setTimerMode('work')">Focus (25m)</div>
+                <div class="mode-pill" data-mode="short_break" onclick="window.plannerController.setTimerMode('short_break')">Short Break (5m)</div>
+                <div class="mode-pill" data-mode="long_break" onclick="window.plannerController.setTimerMode('long_break')">Long Break (15m)</div>
+              </div>
+
+              <div class="timer-circle-container">
+                <svg class="timer-svg" viewBox="0 0 220 220">
+                  <circle class="timer-bg-circle" cx="110" cy="110" r="100"></circle>
+                  <circle id="pomodoroProgressCircle" class="timer-progress-circle" cx="110" cy="110" r="100"></circle>
+                </svg>
+                <div class="timer-time-display">
+                  <div id="pomodoroDigits" class="timer-digits">25:00</div>
+                  <div class="timer-mode-label">Deep Focus</div>
+                </div>
+              </div>
+
+              <div style="display:flex; gap:12px;">
+                <button id="pomodoroPlayPauseBtn" class="btn btn-lg btn-primary" onclick="window.plannerController.togglePlayPause()">
+                  ▶️ Start Focus
+                </button>
+                <button class="btn btn-lg btn-secondary" onclick="window.plannerController.resetTimer()">
+                  ↺ Reset
+                </button>
+              </div>
+
+              <!-- Ambient Sound Board Synthesizer -->
+              <div class="ambient-sound-board">
+                <div style="font-size:0.85rem; font-weight:700; color:var(--text-primary);">🎧 Ambient Sound Synthesizer (Zero Assets Required)</div>
+                
+                <div class="sound-row">
+                  <button id="toggleRainBtn" class="sound-toggle-btn">🌧️ Rain Sound</button>
+                  <input type="range" id="volumeRainSlider" class="sound-slider" min="0" max="1" step="0.05" value="0.5">
+                </div>
+
+                <div class="sound-row">
+                  <button id="toggleWhiteNoiseBtn" class="sound-toggle-btn">📻 White Noise</button>
+                  <input type="range" id="volumeWhiteNoiseSlider" class="sound-slider" min="0" max="1" step="0.05" value="0.4">
+                </div>
+
+                <div class="sound-row">
+                  <button id="toggleBinauralBtn" class="sound-toggle-btn">🧠 432Hz Alpha Waves</button>
+                  <input type="range" id="volumeBinauralSlider" class="sound-slider" min="0" max="1" step="0.05" value="0.5">
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Study Roadmap & Daily Checklist -->
+            <div class="glass-panel" style="padding:24px; display:flex; flex-direction:column; gap:16px;">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h3 style="font-size:1.15rem; font-weight:700;">🎯 AI Study Roadmap & Tasks</h3>
+              </div>
+
+              <!-- AI Schedule Generator Form -->
+              <div style="background:var(--bg-surface); padding:16px; border-radius:var(--radius-md); border:1px solid var(--border-glass);">
+                <div style="font-size:0.85rem; font-weight:600; margin-bottom:8px;">⚡ Generate AI Study Schedule</div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px;">
+                  <input type="date" id="schedExamDate" class="form-input" style="padding:8px 12px; font-size:0.85rem;">
+                  <input type="number" id="schedDailyHours" class="form-input" style="padding:8px 12px; font-size:0.85rem;" placeholder="Hours/day (e.g. 3)" value="3">
+                </div>
+                <div style="display:flex; gap:8px;">
+                  <input type="text" id="schedTopics" class="form-input" style="padding:8px 12px; font-size:0.85rem;" placeholder="Subject (e.g. Quantum Mechanics, Machine Learning)">
+                  <button class="btn btn-sm btn-cyan" onclick="window.plannerController.generateAISchedule(document.getElementById('schedExamDate').value, document.getElementById('schedDailyHours').value, document.getElementById('schedTopics').value)">Generate</button>
+                </div>
+              </div>
+
+              <!-- Task List -->
+              <div id="plannerTaskList" style="display:flex; flex-direction:column; gap:10px; flex:1; overflow-y:auto; max-height:380px;"></div>
+              
+              <!-- Quick Add Task -->
+              <div style="display:flex; gap:8px; margin-top:auto;">
+                <input type="text" id="newMilestoneInput" class="form-input" placeholder="Add study milestone..." onkeydown="if(event.key==='Enter') { window.plannerController.addTask(this.value, 'Study'); this.value=''; }">
+                <button class="btn btn-primary" onclick="const el=document.getElementById('newMilestoneInput'); window.plannerController.addTask(el.value, 'Study'); el.value='';">+ Add</button>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- 3.8 ANALYTICS & MASTERY VIEW -->
+        <section id="view_analytics" class="page-view">
+          <div class="analytics-grid">
+            
+            <div class="glass-panel chart-card">
+              <h3 style="font-size:1.15rem; font-weight:700; margin-bottom:16px;">📈 Subject Mastery Ratings</h3>
+              <div id="topicMasteryContainer" class="mastery-bars-list"></div>
+            </div>
+
+            <div class="glass-panel chart-card">
+              <h3 style="font-size:1.15rem; font-weight:700; margin-bottom:16px;">🏆 Academic Retention Metrics</h3>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px;">
+                <div style="padding:16px; background:var(--bg-surface); border-radius:var(--radius-md); border:1px solid var(--border-glass);">
+                  <div style="font-size:0.8rem; color:var(--text-muted);">Memory Retention Score</div>
+                  <div style="font-size:1.8rem; font-weight:700; color:var(--accent-success); margin-top:4px;">94.2%</div>
+                  <p style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;">Calculated via SM-2 recall history</p>
+                </div>
+                <div style="padding:16px; background:var(--bg-surface); border-radius:var(--radius-md); border:1px solid var(--border-glass);">
+                  <div style="font-size:0.8rem; color:var(--text-muted);">Quiz Passing Rate</div>
+                  <div style="font-size:1.8rem; font-weight:700; color:var(--accent-secondary); margin-top:4px;">88.5%</div>
+                  <p style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;">Across all completed assessments</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ======================================================================
+       4. Modals & Dialogs
+       ====================================================================== -->
+
+  <!-- Settings Modal (API Keys & Engine Config) -->
+  <div id="settingsModal" class="modal-backdrop">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title">⚙️ AI Model & Engine Settings</h3>
+        <button class="icon-btn" onclick="window.app.closeModal('settingsModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Active AI Provider</label>
+          <select id="settingsAIProvider" class="form-select">
+            <option value="local">Built-in Intelligent Engine (Offline / Zero-setup)</option>
+            <option value="gemini">Google Gemini API (Live Cloud LLM)</option>
+            <option value="openai">OpenAI API (GPT-4o / GPT-4o-mini)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Google Gemini API Key (Optional)</label>
+          <input type="password" id="settingsGeminiKey" class="form-input" placeholder="AIzaSy...">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">OpenAI API Key (Optional)</label>
+          <input type="password" id="settingsOpenAIKey" class="form-input" placeholder="sk-proj-...">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Model Selection</label>
+          <select id="settingsModelSelect" class="form-select">
+            <option value="gemini-1.5-flash">gemini-1.5-flash (Fast & Accurate)</option>
+            <option value="gemini-1.5-pro">gemini-1.5-pro (Complex Derivations)</option>
+            <option value="gpt-4o-mini">gpt-4o-mini</option>
+            <option value="gpt-4o">gpt-4o</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="window.app.closeModal('settingsModal')">Cancel</button>
+        <button class="btn btn-primary" onclick="window.app.saveSettings()">Save Configuration</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Flashcard Modal -->
+  <div id="addCardModal" class="modal-backdrop">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title">⚡ Add New Flashcard</h3>
+        <button class="icon-btn" onclick="window.app.closeModal('addCardModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Question / Concept (Front)</label>
+          <textarea id="newCardFront" class="form-textarea" placeholder="e.g. What is the time complexity of QuickSort?"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Answer / Explanation (Back)</label>
+          <textarea id="newCardBack" class="form-textarea" placeholder="e.g. Average O(N log N), Worst-case O(N^2)..."></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Memory Hint (Optional)</label>
+          <input type="text" id="newCardHint" class="form-input" placeholder="e.g. Think pivot selection">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="window.app.closeModal('addCardModal')">Cancel</button>
+        <button class="btn btn-primary" onclick="window.app.submitNewCard()">Create Flashcard</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quiz Results Modal -->
+  <div id="quizResultsModal" class="modal-backdrop">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title">🎉 Assessment Results</h3>
+        <button class="icon-btn" onclick="window.app.closeModal('quizResultsModal')">✕</button>
+      </div>
+      <div class="modal-body" style="text-align:center;">
+        <div id="resultsScoreText" style="font-size:2.8rem; font-weight:800; color:var(--accent-primary); margin-bottom:4px;">4 / 4</div>
+        <div id="resultsPercentText" style="font-size:1.2rem; font-weight:700; color:var(--accent-secondary); margin-bottom:16px;">100%</div>
+        <p id="resultsAdviceText" style="color:var(--text-secondary); line-height:1.5; font-size:0.95rem;"></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" onclick="window.app.closeModal('quizResultsModal')">Review Answers</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="globalToastContainer" class="toast-container"></div>
+
+  <!-- ======================================================================
+       5. Authentication Modal (Sign In / Sign Up / Forgot Password)
+       ====================================================================== -->
+  <div id="authModal" class="modal-backdrop">
+    <div class="modal-container" style="max-width:440px;">
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title">🧠 CogniStudy AI</h3>
+          <p style="font-size:0.82rem;color:var(--text-muted);margin-top:2px;">Your AI-powered learning companion</p>
+        </div>
+        <button class="icon-btn" onclick="window.app.closeModal('authModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <!-- Tabs -->
+        <div class="auth-tabs">
+          <button class="auth-tab-btn active" id="authTabSignIn" onclick="window.app.switchAuthTab('signin')">Sign In</button>
+          <button class="auth-tab-btn" id="authTabSignUp" onclick="window.app.switchAuthTab('signup')">Create Account</button>
+          <button class="auth-tab-btn" id="authTabForgot" onclick="window.app.switchAuthTab('forgot')">Reset Password</button>
+        </div>
+
+        <!-- Sign In Panel -->
+        <div id="authPanelSignin" class="auth-panel active">
+          <div id="signinError" class="auth-error"></div>
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" id="signinEmail" class="form-input" placeholder="you@example.com" autocomplete="email">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <div class="input-group">
+              <input type="password" id="signinPassword" class="form-input" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter') window.app.handleSignIn();">
+              <button class="input-toggle-btn" onclick="window.app.togglePasswordVisibility('signinPassword', this)">👁️</button>
+            </div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;">
+            <label class="auth-check-row">
+              <input type="checkbox" id="signinRemember"> Remember me
+            </label>
+            <span class="auth-forgot-link" onclick="window.app.switchAuthTab('forgot')">Forgot password?</span>
+          </div>
+          <div style="margin-top:20px;">
+            <button class="btn btn-primary" style="width:100%;" onclick="window.app.handleSignIn()">Sign In →</button>
+          </div>
+          <div class="auth-divider">or continue as</div>
+          <button class="btn-guest" onclick="window.app.handleGuestLogin()">⚡ Quick Demo Account &nbsp;·&nbsp; <span style="opacity:0.7;font-size:0.8rem;">alex.scholar@cogni.ai</span></button>
+        </div>
+
+        <!-- Sign Up Panel -->
+        <div id="authPanelSignup" class="auth-panel">
+          <div id="signupError" class="auth-error"></div>
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input type="text" id="signupName" class="form-input" placeholder="Your name" autocomplete="name">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" id="signupEmail" class="form-input" placeholder="you@example.com" autocomplete="email">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Academic Focus</label>
+            <input type="text" id="signupFocus" class="form-input" placeholder="e.g. Computer Science, Medicine...">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <div class="input-group">
+              <input type="password" id="signupPassword" class="form-input" placeholder="Min 6 characters" autocomplete="new-password" oninput="window.app.updatePasswordStrength(this.value)">
+              <button class="input-toggle-btn" onclick="window.app.togglePasswordVisibility('signupPassword', this)">👁️</button>
+            </div>
+            <div class="pw-strength">
+              <div class="pw-strength-bars">
+                <div class="pw-bar" id="pwBar1"></div>
+                <div class="pw-bar" id="pwBar2"></div>
+                <div class="pw-bar" id="pwBar3"></div>
+                <div class="pw-bar" id="pwBar4"></div>
+              </div>
+              <span class="pw-strength-label" id="pwStrengthLabel"></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Choose Avatar</label>
+            <div class="avatar-picker" id="signupAvatarPicker">
+              <div class="avatar-option selected" data-avatar="🧠" onclick="window.app.selectAvatar(this)">🧠</div>
+              <div class="avatar-option" data-avatar="🎓" onclick="window.app.selectAvatar(this)">🎓</div>
+              <div class="avatar-option" data-avatar="🔬" onclick="window.app.selectAvatar(this)">🔬</div>
+              <div class="avatar-option" data-avatar="📚" onclick="window.app.selectAvatar(this)">📚</div>
+              <div class="avatar-option" data-avatar="⚡" onclick="window.app.selectAvatar(this)">⚡</div>
+              <div class="avatar-option" data-avatar="🌟" onclick="window.app.selectAvatar(this)">🌟</div>
+              <div class="avatar-option" data-avatar="🎯" onclick="window.app.selectAvatar(this)">🎯</div>
+              <div class="avatar-option" data-avatar="🧬" onclick="window.app.selectAvatar(this)">🧬</div>
+            </div>
+          </div>
+          <div style="margin-top:20px;">
+            <button class="btn btn-primary" style="width:100%;" onclick="window.app.handleSignUp()">Create Account →</button>
+          </div>
+        </div>
+
+        <!-- Forgot Password Panel -->
+        <div id="authPanelForgot" class="auth-panel">
+          <div id="forgotError" class="auth-error"></div>
+          <div id="forgotSuccess" class="auth-success"></div>
+          <p style="color:var(--text-secondary);font-size:0.88rem;margin-bottom:18px;line-height:1.5;">Enter your email address and we'll show you your account details so you can sign back in.</p>
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" id="forgotEmail" class="form-input" placeholder="you@example.com">
+          </div>
+          <div style="margin-top:20px;">
+            <button class="btn btn-primary" style="width:100%;" onclick="window.app.handleForgotPassword()">Find My Account →</button>
+          </div>
+          <div class="auth-divider">remembered?</div>
+          <button class="btn btn-secondary" style="width:100%;" onclick="window.app.switchAuthTab('signin')">Back to Sign In</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       6. User Profile & Account Modal
+       ====================================================================== -->
+  <div id="profileModal" class="modal-backdrop">
+    <div class="modal-container" style="max-width:500px;">
+      <div class="modal-header">
+        <h3 class="modal-title">👤 My Profile & Account</h3>
+        <button class="icon-btn" onclick="window.app.closeModal('profileModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <!-- User Card -->
+        <div class="profile-avatar-row">
+          <div id="profileAvatarLarge" class="profile-avatar-large" style="background:#6366f1;">🧠</div>
+          <div class="profile-avatar-info">
+            <div id="profileDisplayName" class="profile-avatar-name">Alex Chen</div>
+            <div id="profileDisplayTier" class="profile-avatar-tier">⚡ Level 4 Scholar</div>
+            <div id="profileDisplayJoined" class="profile-avatar-joined">📅 Member since Jan 2026</div>
+          </div>
+        </div>
+        <!-- Stat Chips -->
+        <div class="profile-stats-row">
+          <div class="profile-stat-chip">
+            <div id="profileStatStreak" class="profile-stat-val">7</div>
+            <div class="profile-stat-lbl">🔥 Day Streak</div>
+          </div>
+          <div class="profile-stat-chip">
+            <div id="profileStatHours" class="profile-stat-val">28.5</div>
+            <div class="profile-stat-lbl">⏱ Study Hours</div>
+          </div>
+          <div class="profile-stat-chip">
+            <div id="profileStatFocus" class="profile-stat-val">AI</div>
+            <div class="profile-stat-lbl">🎯 Focus</div>
+          </div>
+        </div>
+        <!-- Tabs -->
+        <div class="profile-tabs">
+          <button class="profile-tab-btn active" onclick="window.app.switchProfileTab('edit', this)">Edit Details</button>
+          <button class="profile-tab-btn" onclick="window.app.switchProfileTab('security', this)">Security</button>
+        </div>
+        <!-- Edit Panel -->
+        <div id="profilePanelEdit" class="profile-panel active">
+          <div id="profileEditError" class="auth-error"></div>
+          <div id="profileEditSuccess" class="auth-success"></div>
+          <div class="form-group">
+            <label class="form-label">Display Name</label>
+            <input type="text" id="profileEditName" class="form-input" placeholder="Your full name">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" id="profileEditEmail" class="form-input" placeholder="you@example.com">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Academic Focus</label>
+            <input type="text" id="profileEditFocus" class="form-input" placeholder="e.g. Computer Science, Medicine...">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Study Bio</label>
+            <textarea id="profileEditBio" class="form-textarea" rows="2" placeholder="A short description about your learning goals..."></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Avatar Icon</label>
+            <div class="avatar-picker" id="profileAvatarPicker">
+              <div class="avatar-option" data-avatar="🧠" onclick="window.app.selectProfileAvatar(this)">🧠</div>
+              <div class="avatar-option" data-avatar="🎓" onclick="window.app.selectProfileAvatar(this)">🎓</div>
+              <div class="avatar-option" data-avatar="🔬" onclick="window.app.selectProfileAvatar(this)">🔬</div>
+              <div class="avatar-option" data-avatar="📚" onclick="window.app.selectProfileAvatar(this)">📚</div>
+              <div class="avatar-option" data-avatar="⚡" onclick="window.app.selectProfileAvatar(this)">⚡</div>
+              <div class="avatar-option" data-avatar="🌟" onclick="window.app.selectProfileAvatar(this)">🌟</div>
+              <div class="avatar-option" data-avatar="🎯" onclick="window.app.selectProfileAvatar(this)">🎯</div>
+              <div class="avatar-option" data-avatar="🧬" onclick="window.app.selectProfileAvatar(this)">🧬</div>
+            </div>
+          </div>
+        </div>
+        <!-- Security Panel -->
+        <div id="profilePanelSecurity" class="profile-panel">
+          <div id="profileSecError" class="auth-error"></div>
+          <div id="profileSecSuccess" class="auth-success"></div>
+          <div class="form-group">
+            <label class="form-label">Current Password</label>
+            <div class="input-group">
+              <input type="password" id="secOldPassword" class="form-input" placeholder="Your current password">
+              <button class="input-toggle-btn" onclick="window.app.togglePasswordVisibility('secOldPassword', this)">👁️</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">New Password</label>
+            <div class="input-group">
+              <input type="password" id="secNewPassword" class="form-input" placeholder="Min 6 characters">
+              <button class="input-toggle-btn" onclick="window.app.togglePasswordVisibility('secNewPassword', this)">👁️</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Confirm New Password</label>
+            <input type="password" id="secConfirmPassword" class="form-input" placeholder="Repeat new password">
+          </div>
+          <button class="btn btn-primary" style="margin-top:8px;" onclick="window.app.handleChangePassword()">Update Password</button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="window.app.closeModal('profileModal')">Cancel</button>
+        <button class="btn btn-primary" id="profileSaveBtn" onclick="window.app.saveProfile()">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Application Scripts (Loaded in dependency order) -->
+  <script src="assets/sample_data.js"></script>
+  <script src="js/sound.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ai-engine.js"></script>
+  <script src="js/tutor.js"></script>
+  <script src="js/notes.js"></script>
+  <script src="js/flashcards.js"></script>
+  <script src="js/quiz.js"></script>
+  <script src="js/planner.js"></script>
+  <script src="js/mindmap.js"></script>
+  <script src="js/analytics.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

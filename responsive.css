@@ -1,0 +1,100 @@
+/* ==========================================================================
+   CogniStudy AI - Responsive Design Adaptations
+   ========================================================================== */
+
+@media (max-width: 1080px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+  .stat-card {
+    grid-column: span 3;
+  }
+  .banner-card {
+    grid-column: span 6;
+  }
+  .quick-pomodoro-widget {
+    grid-column: span 6;
+  }
+  .section-card {
+    grid-column: span 6;
+  }
+  .chart-card {
+    grid-column: span 12;
+  }
+  .tutor-layout {
+    grid-template-columns: 240px 1fr;
+  }
+  .notes-layout {
+    grid-template-columns: 1fr;
+    height: auto;
+    overflow-y: auto;
+  }
+  .notes-editor-pane, .notes-output-pane {
+    height: 500px;
+  }
+  .planner-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --sidebar-width: 70px;
+  }
+
+  .sidebar .logo-brand span,
+  .sidebar .nav-item span,
+  .sidebar .nav-section-title,
+  .sidebar .status-info,
+  .sidebar .nav-badge {
+    display: none;
+  }
+
+  .sidebar-header {
+    justify-content: center;
+    padding: 0;
+  }
+
+  .nav-item {
+    justify-content: center;
+    padding: 12px;
+  }
+
+  .top-header {
+    padding: 0 16px;
+  }
+
+  .content-area {
+    padding: 16px;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-card, .banner-card, .quick-pomodoro-widget, .section-card {
+    grid-column: span 1;
+  }
+
+  .tutor-layout {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+
+  .tutor-sidebar {
+    height: auto;
+    max-height: 200px;
+  }
+
+  .chat-container {
+    height: 550px;
+  }
+
+  .flashcard-3d {
+    height: 300px;
+  }
+
+  .srs-controls {
+    flex-wrap: wrap;
+  }
+}
